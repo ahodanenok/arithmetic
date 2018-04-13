@@ -1,7 +1,6 @@
 package ahodanenok.arithmetic;
 
 import ahodanenok.arithmetic.ast.Expression;
-import ahodanenok.arithmetic.token.Token;
 
 public interface NotationAstBuilder {
 

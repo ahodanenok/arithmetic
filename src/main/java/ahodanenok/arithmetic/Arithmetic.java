@@ -1,8 +1,5 @@
 package ahodanenok.arithmetic;
 
-import ahodanenok.arithmetic.token.Token;
-import ahodanenok.arithmetic.token.Tokenizer;
-
 import java.math.BigDecimal;
 
 public class Arithmetic {
