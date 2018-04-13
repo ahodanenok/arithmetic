@@ -7,7 +7,10 @@ public class Arithmetic {
     private Notation notation;
 
     public Arithmetic(Notation notation) {
-        // todo: check arg
+        if (notation == null) {
+            throw new IllegalArgumentException("Notation is null");
+        }
+
         this.notation = notation;
     }
 
@@ -20,7 +23,9 @@ public class Arithmetic {
      * @return value of the given expression
      */
     public BigDecimal evaluate(String expr) {
-        // todo: check arg
+        if (expr == null) {
+            throw new IllegalArgumentException("Expression is null");
+        }
 
         Tokenizer tokenizer = new Tokenizer(expr);
         NotationAstBuilder astBuilder = notation.createAstBuilder();

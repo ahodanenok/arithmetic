@@ -24,7 +24,19 @@ class Syntax {
     }
 
     static boolean isOperatorPart(char ch) {
-        return ch == '+' || ch == '-' || ch == '*' || ch == '/';
+        return ch == '+'
+            || ch == '-'
+            || ch == '*'
+            || ch == '/'
+            || ch == '!'
+            || ch == '@'
+            || ch == '$'
+            || ch == '%'
+            || ch == '#'
+            || ch == '^'
+            || ch == '&'
+            || ch == '<'
+            || ch == '>';
     }
 
     static boolean isFunctionStart(char ch) {

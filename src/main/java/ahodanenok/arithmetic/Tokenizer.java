@@ -10,7 +10,10 @@ class Tokenizer {
     private Token token;
 
     public Tokenizer(String expr) {
-        // todo: check arg
+        if (expr == null) {
+            throw new IllegalArgumentException("Expression is null");
+        }
+
         this.expr = expr;
         this.line = 0;
         this.pos = 0;
@@ -22,11 +25,12 @@ class Tokenizer {
 
     public Token next() throws InvalidExpressionException {
         token = null;
+        skipWhitespaces();
+
         if (!hasMoreChars()) {
             return null;
         }
 
-        skipWhitespaces();
         if (currentChar == ',') {
             if (!readNextChar()) {
                 return null;
