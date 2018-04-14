@@ -1,8 +1,9 @@
 package ahodanenok.arithmetic;
 
 import ahodanenok.arithmetic.ast.Expression;
+import ahodanenok.arithmetic.exception.InvalidExpressionException;
 
-public interface NotationAstBuilder {
+interface NotationAstBuilder {
 
     /**
      * @throws InvalidExpressionException

@@ -1,5 +1,7 @@
 package ahodanenok.arithmetic;
 
+import ahodanenok.arithmetic.exception.InvalidExpressionException;
+
 class Tokenizer {
 
     private String expr;

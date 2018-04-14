@@ -1,4 +1,4 @@
-package ahodanenok.arithmetic;
+package ahodanenok.arithmetic.exception;
 
 public class InvalidExpressionException extends RuntimeException {
 
