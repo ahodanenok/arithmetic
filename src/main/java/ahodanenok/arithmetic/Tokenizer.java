@@ -17,8 +17,8 @@ class Tokenizer {
         }
 
         this.expr = expr;
-        this.line = 0;
-        this.pos = 0;
+        this.line = 1;
+        this.pos = 1;
         this.idx = 0;
         if (idx < expr.length()) {
             this.currentChar = expr.charAt(0);

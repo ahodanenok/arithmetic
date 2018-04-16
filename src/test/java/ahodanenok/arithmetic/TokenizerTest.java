@@ -1,7 +1,16 @@
 package ahodanenok.arithmetic;
 
 import static org.junit.Assert.*;
+
+import ahodanenok.arithmetic.ast.Expression;
+import ahodanenok.arithmetic.ast.NumberExpression;
+import ahodanenok.arithmetic.ast.OperatorExpression;
+import ahodanenok.arithmetic.operator.NegateOperator;
+import ahodanenok.arithmetic.operator.SubtractOperator;
+import ahodanenok.arithmetic.operator.SumOperator;
 import org.junit.Test;
+
+import java.math.BigDecimal;
 
 public class TokenizerTest {
 

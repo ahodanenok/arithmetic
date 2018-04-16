@@ -3,19 +3,35 @@ package ahodanenok.arithmetic;
 import ahodanenok.arithmetic.ast.Expression;
 import ahodanenok.arithmetic.exception.InvalidExpressionException;
 import ahodanenok.arithmetic.exception.MismatchedParenthesisException;
+import ahodanenok.arithmetic.exception.UnknownFunctionException;
+import ahodanenok.arithmetic.exception.UnknownOperatorException;
 
 import java.math.BigDecimal;
 
 public class Arithmetic {
 
-    private Notation notation;
+    public static Arithmetic create(Notation notation) {
+        return new Arithmetic(notation);
+    }
 
-    public Arithmetic(Notation notation) {
+    private Notation notation;
+    private Env env;
+
+    private Arithmetic(Notation notation) {
         if (notation == null) {
             throw new IllegalArgumentException("Notation is null");
         }
 
         this.notation = notation;
+        this.env = new Env();
+    }
+
+    public void registerFunction(Function function) {
+        env.registerFunction(function);
+    }
+
+    public void registerOperator(Operator operator) {
+        env.registerOperator(operator);
     }
 
     /**
@@ -33,6 +49,7 @@ public class Arithmetic {
 
         Tokenizer tokenizer = new Tokenizer(expr);
         NotationAstBuilder astBuilder = notation.createAstBuilder();
+        astBuilder.setEnv(env);
 
         Expression ast;
         try {
@@ -43,6 +60,10 @@ public class Arithmetic {
 
             ast = astBuilder.build();
         } catch (MismatchedParenthesisException e) {
+            throw new InvalidExpressionException(tokenizer.currentPosition(), tokenizer.currentLine(), expr, e);
+        } catch (UnknownFunctionException e) {
+            throw new InvalidExpressionException(tokenizer.currentPosition(), tokenizer.currentLine(), expr, e);
+        } catch (UnknownOperatorException e) {
             throw new InvalidExpressionException(tokenizer.currentPosition(), tokenizer.currentLine(), expr, e);
         }
 

@@ -3,13 +3,19 @@ package ahodanenok.arithmetic;
 import ahodanenok.arithmetic.ast.Expression;
 import ahodanenok.arithmetic.exception.InvalidExpressionException;
 
-interface NotationAstBuilder {
+abstract class NotationAstBuilder {
+
+    protected Env env;
+
+    void setEnv(Env env) {
+        this.env = env;
+    }
 
     /**
      * @throws InvalidExpressionException
      * @param token
      */
-    void addToken(Token token);
+    abstract void addToken(Token token);
 
-    Expression build();
+    abstract Expression build();
 }

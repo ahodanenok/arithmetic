@@ -6,6 +6,10 @@ public class InvalidExpressionException extends RuntimeException {
     private int line;
     private String expr;
 
+    public InvalidExpressionException(String message) {
+        super(message);
+    }
+
     public InvalidExpressionException(int pos, int line, String expr, String cause) {
         super(cause);
         this.pos = pos;
@@ -14,7 +18,7 @@ public class InvalidExpressionException extends RuntimeException {
     }
 
     public InvalidExpressionException(int pos, int line, String expr, Exception cause) {
-        super("Invalid expression", cause);
+        super(String.format("Invalid expression at column %d, line %d: ", pos, line), cause);
         this.pos = pos;
         this.line = line;
         this.expr = expr;

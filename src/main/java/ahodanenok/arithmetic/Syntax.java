@@ -19,6 +19,10 @@ class Syntax {
             || ch == '9';
     }
 
+    static void checkNumber(CharSequence num, char newCh) {
+
+    }
+
     static boolean isOperatorStart(char ch) {
         return isOperatorPart(ch);
     }
@@ -39,6 +43,24 @@ class Syntax {
             || ch == '>';
     }
 
+    static boolean isValidOperatorIdentifier(String identifier) {
+        if (identifier == null || identifier.length() == 0) {
+            return false;
+        }
+
+        if (!isOperatorStart(identifier.charAt(0))) {
+            return false;
+        }
+
+        for (int i = 1; i < identifier.length(); i++) {
+            if (!isOperatorPart(identifier.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     static boolean isFunctionStart(char ch) {
         return Character.isLetter(ch);
     }
@@ -47,7 +69,21 @@ class Syntax {
         return Character.isLetter(ch) || Character.isDigit(ch);
     }
 
-    static void checkNumber(CharSequence num, char newCh) {
+    static boolean isValidFunctionIdentifier(String identifier) {
+        if (identifier == null || identifier.length() == 0) {
+            return false;
+        }
 
+        if (!isFunctionStart(identifier.charAt(0))) {
+            return false;
+        }
+
+        for (int i = 1; i < identifier.length(); i++) {
+            if (!isFunctionPart(identifier.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
