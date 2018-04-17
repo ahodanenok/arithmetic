@@ -6,9 +6,14 @@ import ahodanenok.arithmetic.exception.InvalidExpressionException;
 abstract class NotationAstBuilder {
 
     Env env;
+    NumberFactory numberFactory;
 
     void setEnv(Env env) {
         this.env = env;
+    }
+
+    void setNumberFactory(NumberFactory numberFactory) {
+        this.numberFactory = numberFactory;
     }
 
     /**

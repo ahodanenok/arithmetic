@@ -12,6 +12,6 @@ public class PowFunction extends Function {
 
     @Override
     public BigDecimal evaluate(BigDecimal[] args) {
-        return args[0].pow(args[1].intValue());
+        return args[0].pow(args[1].intValue(), mc);
     }
 }

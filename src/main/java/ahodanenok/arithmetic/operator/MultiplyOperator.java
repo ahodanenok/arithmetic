@@ -14,7 +14,7 @@ public class MultiplyOperator extends Operator {
     public BigDecimal evaluate(BigDecimal[] args) {
         BigDecimal result = args[0];
         for (int i = 1; i < args.length; i++) {
-            result = result.multiply(args[i]);
+            result = result.multiply(args[i], mc);
         }
 
         return result;

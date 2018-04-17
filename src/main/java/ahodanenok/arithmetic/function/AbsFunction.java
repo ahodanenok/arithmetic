@@ -12,6 +12,6 @@ public class AbsFunction extends Function {
 
     @Override
     public BigDecimal evaluate(BigDecimal[] args) {
-        return args[0].abs();
+        return args[0].abs(mc);
     }
 }

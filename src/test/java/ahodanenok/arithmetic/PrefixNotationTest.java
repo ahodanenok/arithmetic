@@ -24,6 +24,12 @@ public class PrefixNotationTest {
         Env env = new Env();
         env.registerOperator(new SumOperator());
         builder.setEnv(env);
+        builder.setNumberFactory(new NumberFactory() {
+            @Override
+            public BigDecimal create(String number) {
+                return new BigDecimal(number);
+            }
+        });
         builder.addToken(new Token(TokenType.OPERATOR, "+"));
         builder.addToken(new Token(TokenType.NUMBER, "1"));
         builder.addToken(new Token(TokenType.NUMBER, "2"));
@@ -40,6 +46,12 @@ public class PrefixNotationTest {
         env.registerOperator(new NegateOperator());
         env.registerOperator(new SubtractOperator());
         builder.setEnv(env);
+        builder.setNumberFactory(new NumberFactory() {
+            @Override
+            public BigDecimal create(String number) {
+                return new BigDecimal(number);
+            }
+        });
         builder.addToken(new Token(TokenType.OPERATOR, "-"));
         builder.addToken(new Token(TokenType.NUMBER, "10"));
         Expression expression = builder.build();
@@ -55,6 +67,12 @@ public class PrefixNotationTest {
         env.registerOperator(new NegateOperator());
         env.registerOperator(new SubtractOperator());
         builder.setEnv(env);
+        builder.setNumberFactory(new NumberFactory() {
+            @Override
+            public BigDecimal create(String number) {
+                return new BigDecimal(number);
+            }
+        });
         builder.addToken(new Token(TokenType.OPERATOR, "-"));
         builder.addToken(new Token(TokenType.OPERATOR, "-"));
         builder.addToken(new Token(TokenType.OPERATOR, "-"));
@@ -76,6 +94,12 @@ public class PrefixNotationTest {
         env.registerOperator(new NegateOperator());
         env.registerOperator(new SubtractOperator());
         builder.setEnv(env);
+        builder.setNumberFactory(new NumberFactory() {
+            @Override
+            public BigDecimal create(String number) {
+                return new BigDecimal(number);
+            }
+        });
         builder.addToken(new Token(TokenType.OPERATOR, "-"));
         builder.addToken(new Token(TokenType.OPERATOR, "-"));
         builder.addToken(new Token(TokenType.NUMBER, "2"));
@@ -131,6 +155,12 @@ public class PrefixNotationTest {
         Env env = new Env();
         env.registerFunction(new PowFunction());
         builder.setEnv(env);
+        builder.setNumberFactory(new NumberFactory() {
+            @Override
+            public BigDecimal create(String number) {
+                return new BigDecimal(number);
+            }
+        });
         builder.addToken(new Token(TokenType.FUNCTION, "pow"));
         builder.addToken(new Token(TokenType.NUMBER, "2"));
         builder.addToken(new Token(TokenType.NUMBER, "5"));
@@ -146,6 +176,12 @@ public class PrefixNotationTest {
         Env env = new Env();
         env.registerFunction(new AbsFunction());
         builder.setEnv(env);
+        builder.setNumberFactory(new NumberFactory() {
+            @Override
+            public BigDecimal create(String number) {
+                return new BigDecimal(number);
+            }
+        });
         builder.addToken(new Token(TokenType.FUNCTION, "abs"));
         builder.addToken(new Token(TokenType.NUMBER, "-10"));
         Expression expression = builder.build();
@@ -161,6 +197,12 @@ public class PrefixNotationTest {
         env.registerOperator(new NegateOperator());
         env.registerFunction(new AbsFunction());
         builder.setEnv(env);
+        builder.setNumberFactory(new NumberFactory() {
+            @Override
+            public BigDecimal create(String number) {
+                return new BigDecimal(number);
+            }
+        });
         builder.addToken(new Token(TokenType.FUNCTION, "abs"));
         builder.addToken(new Token(TokenType.OPERATOR, "-"));
         builder.addToken(new Token(TokenType.FUNCTION, "abs"));
@@ -182,6 +224,12 @@ public class PrefixNotationTest {
         env.registerFunction(new AbsFunction());
         env.registerFunction(new PowFunction());
         builder.setEnv(env);
+        builder.setNumberFactory(new NumberFactory() {
+            @Override
+            public BigDecimal create(String number) {
+                return new BigDecimal(number);
+            }
+        });
         builder.addToken(new Token(TokenType.FUNCTION, "abs"));
         builder.addToken(new Token(TokenType.FUNCTION, "pow"));
         builder.addToken(new Token(TokenType.NUMBER, "-2"));

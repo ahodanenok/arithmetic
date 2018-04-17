@@ -1,6 +1,8 @@
 package ahodanenok.arithmetic;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 public abstract class Operator {
 
@@ -9,6 +11,8 @@ public abstract class Operator {
     private final String identifier;
     private final int minParametersCount;
     private final int parametersCount;
+
+    protected MathContext mc;
 
     public Operator(String identifier, int minParametersCount) {
         this(identifier, minParametersCount, VARIABLES_ARGS);
@@ -38,6 +42,7 @@ public abstract class Operator {
         this.identifier = identifier;
         this.minParametersCount = minParametersCount;
         this.parametersCount = parametersCount;
+        this.mc = new MathContext(16, RoundingMode.HALF_UP);
     }
 
     public final String getIdentifier() {
@@ -55,6 +60,10 @@ public abstract class Operator {
     public final boolean accepts(int parametersCount) {
         return parametersCount >= minParametersCount
                 && (parametersCount <= this.parametersCount || this.parametersCount == VARIABLES_ARGS);
+    }
+
+    protected void setMathContext(MathContext mc) {
+        this.mc = mc;
     }
 
     public abstract BigDecimal evaluate(BigDecimal[] args);

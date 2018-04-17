@@ -14,7 +14,11 @@ public class DivideOperator extends Operator {
     public BigDecimal evaluate(BigDecimal[] args) {
         BigDecimal result = args[0];
         for (int i = 1; i < args.length; i++) {
-            result = result.divide(args[i]);
+            if (BigDecimal.ZERO.equals(args[i])) {
+                throw new ArithmeticException("Division by zero");
+            }
+
+            result = result.divide(args[i], mc);
         }
 
         return result;

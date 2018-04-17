@@ -9,7 +9,6 @@ import ahodanenok.arithmetic.exception.MismatchedParenthesisException;
 import ahodanenok.arithmetic.exception.UnknownFunctionException;
 import ahodanenok.arithmetic.exception.UnknownOperatorException;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,7 +40,7 @@ class PrefixNotationAstBuilder extends NotationAstBuilder {
                 Debug.logToken("push", token);
 
                 stack.push(token.getType());
-                expressions.push(new NumberExpression(new BigDecimal(token.getValue())));
+                expressions.push(new NumberExpression(numberFactory.create(token.getValue())));
 
                 Debug.log("stack after push: %s", stack.toString());
             } else if (token.getType() == TokenType.LP) {

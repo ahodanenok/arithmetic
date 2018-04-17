@@ -7,8 +7,10 @@ import ahodanenok.arithmetic.exception.UnknownFunctionException;
 import ahodanenok.arithmetic.exception.UnknownOperatorException;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
-public class Arithmetic {
+public final class Arithmetic {
 
     public static Arithmetic create(Notation notation) {
         return new Arithmetic(notation);
@@ -17,6 +19,8 @@ public class Arithmetic {
     private Notation notation;
     private Env env;
 
+    private MathContext mc;
+
     private Arithmetic(Notation notation) {
         if (notation == null) {
             throw new IllegalArgumentException("Notation is null");
@@ -24,14 +28,27 @@ public class Arithmetic {
 
         this.notation = notation;
         this.env = new Env();
+        this.mc = new MathContext(16, RoundingMode.HALF_UP);
     }
 
     public void registerFunction(Function function) {
         env.registerFunction(function);
+        function.setMathContext(mc);
     }
 
     public void registerOperator(Operator operator) {
         env.registerOperator(operator);
+        operator.setMathContext(mc);
+    }
+
+    public void setMathContext(MathContext mc) {
+        this.mc = mc;
+        for (Operator op : env.operators) {
+            op.setMathContext(mc);
+        }
+        for (Function fn : env.functions) {
+            fn.setMathContext(mc);
+        }
     }
 
     /**
@@ -59,6 +76,12 @@ public class Arithmetic {
         Tokenizer tokenizer = new Tokenizer(expr);
         NotationAstBuilder astBuilder = notation.createAstBuilder();
         astBuilder.setEnv(env);
+        astBuilder.setNumberFactory(new NumberFactory() {
+            @Override
+            public BigDecimal create(String number) {
+                return new BigDecimal(number, mc);
+            }
+        });
 
         Expression ast;
         try {

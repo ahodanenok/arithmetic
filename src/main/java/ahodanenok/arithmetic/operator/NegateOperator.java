@@ -12,6 +12,6 @@ public class NegateOperator extends Operator {
 
     @Override
     public BigDecimal evaluate(BigDecimal[] args) {
-        return args[0].negate();
+        return args[0].negate(mc);
     }
 }
