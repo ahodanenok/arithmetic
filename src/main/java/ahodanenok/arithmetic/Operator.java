@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 
 public abstract class Operator {
 
-    public static final int VARIABLES_ARGS = -1;
+    private static final int VARIABLES_ARGS = -1;
 
-    protected final String identifier;
-    protected final int minParametersCount;
-    protected final int parametersCount;
+    private final String identifier;
+    private final int minParametersCount;
+    private final int parametersCount;
 
     public Operator(String identifier, int minParametersCount) {
         this(identifier, minParametersCount, VARIABLES_ARGS);

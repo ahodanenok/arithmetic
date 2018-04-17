@@ -5,7 +5,7 @@ import ahodanenok.arithmetic.exception.InvalidExpressionException;
 
 abstract class NotationAstBuilder {
 
-    protected Env env;
+    Env env;
 
     void setEnv(Env env) {
         this.env = env;

@@ -18,30 +18,38 @@ class PrefixNotationAstBuilder extends NotationAstBuilder {
 
     private List<Token> tokens;
 
-    public PrefixNotationAstBuilder() {
+    PrefixNotationAstBuilder() {
         this.tokens = new ArrayList<Token>();
     }
 
     @Override
-    public void addToken(Token token) {
+    void addToken(Token token) {
         this.tokens.add(token);
+
     }
 
     @Override
-    public Expression build() {
+    Expression build() {
         LinkedList<Expression> expressions = new LinkedList<Expression>();
         LinkedList<TokenType> stack = new LinkedList<TokenType>();
 
+        Debug.log("PrefixNotationAstBuilder.build");
+        Debug.indent();
         for (int i = tokens.size() - 1; i >= 0; i--) {
             Token token = tokens.get(i);
-//            System.out.println(expressions);
-//            System.out.println(stack);
-//            System.out.println(token);
-//            System.out.println();
             if (token.getType() == TokenType.NUMBER) {
+                Debug.logToken("push", token);
+
                 stack.push(token.getType());
                 expressions.push(new NumberExpression(new BigDecimal(token.getValue())));
+
+                Debug.log("stack after push: %s", stack.toString());
             } else if (token.getType() == TokenType.LP) {
+                Debug.logToken("pop", token);
+                Debug.log("stack before pop: %s", stack.toString());
+
+                // pop everything until right parenthesis,
+                // then replace it with a number as a placeholder for this pair of parenthesis
                 while (stack.size() > 0 && stack.peek() != TokenType.RP) stack.pop();
 
                 if (stack.size() == 0) {
@@ -50,36 +58,52 @@ class PrefixNotationAstBuilder extends NotationAstBuilder {
                     stack.pop();
                     stack.push(TokenType.NUMBER);
                 }
+
+                Debug.log("stack after pop: %s", stack);
             } else if (token.getType() == TokenType.RP) {
+                Debug.logToken("push", token);
                 stack.push(token.getType());
+                Debug.log("stack after push: %s", stack.toString());
             } else if (token.getType() == TokenType.OPERATOR) {
+                Debug.logToken(token);
+
                 int maxParametersCount = getNumbersCount(stack);
                 int parametersCount = maxParametersCount;
                 Operator op = null;
                 while (parametersCount > 0) {
+                    Debug.log("maching operator: %s, %d", token.getValue(), parametersCount);
                     op = env.getOperator(token.getValue(), parametersCount);
                     if (op != null) break;
                     parametersCount--;
                 }
 
                 if (op != null) {
+                    assert op.isVariableArgs() || op.getParametersCount() == parametersCount;
+                    Debug.log("found a match: (%s, %d)", op.getIdentifier(), op.getParametersCount());
                     expressions.push(new OperatorExpression(op, pop(expressions, parametersCount)));
+                    // leave one number as a placeholder for the result of this operator
                     for (int k = 0; k < parametersCount - 1; k++) stack.pop();
                 } else {
                     throw new UnknownOperatorException(token.getValue(), maxParametersCount);
                 }
             } else if (token.getType() == TokenType.FUNCTION) {
+                Debug.logToken(token);
+
                 int maxParametersCount = getNumbersCount(stack);
                 int parametersCount = maxParametersCount;
                 Function fn = null;
                 while (parametersCount > 0) {
+                    Debug.log("maching function: %s, %d", token.getValue(), parametersCount);
                     fn = env.getFunction(token.getValue(), parametersCount);
                     if (fn != null) break;
                     parametersCount--;
                 }
 
                 if (fn != null) {
+                    assert fn.isVariableArgs() || fn.getParametersCount() == parametersCount;
+                    Debug.log("found a match: (%s, %d)", fn.getIdentifier(), fn.getParametersCount());
                     expressions.push(new FunctionExpression(fn, pop(expressions, parametersCount)));
+                    // leave one number as a placeholder for the result of this function
                     for (int k = 0; k < parametersCount - 1; k++) stack.pop();
                 } else {
                     throw new UnknownFunctionException(token.getValue(), maxParametersCount);
@@ -93,9 +117,10 @@ class PrefixNotationAstBuilder extends NotationAstBuilder {
             throw new InvalidExpressionException("Expression is not in prefix notation");
         }
 
-        Expression expression = expressions.pop();
-//        System.out.println(expression);
-        return expression;
+        assert stack.size() == 1 && stack.peek() == TokenType.NUMBER;
+        assert expressions.size() == 1;
+        Debug.unindent();
+        return expressions.pop();
     }
 
     private int getNumbersCount(LinkedList<TokenType> stack) {

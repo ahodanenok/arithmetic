@@ -28,15 +28,15 @@ public class TokenizerTest {
 
         Token token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.NUMBER, "1"));
+        assertEquals(new Token(TokenType.NUMBER, "1"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "+"));
+        assertEquals(new Token(TokenType.OPERATOR, "+"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.NUMBER, "2"));
+        assertEquals(new Token(TokenType.NUMBER, "2"), token);
 
         assertNull(tokenizer.next());
         assertNull(tokenizer.next());
@@ -56,19 +56,19 @@ public class TokenizerTest {
 
         Token token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.NUMBER, "1"));
+        assertEquals(new Token(TokenType.NUMBER, "1"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.NUMBER, "321"));
+        assertEquals(new Token(TokenType.NUMBER, "321"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.NUMBER, "0"));
+        assertEquals(new Token(TokenType.NUMBER, "0"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.NUMBER, "22222"));
+        assertEquals(new Token(TokenType.NUMBER, "22222"), token);
 
         assertNull(tokenizer.next());
     }
@@ -79,15 +79,15 @@ public class TokenizerTest {
 
         Token token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "+"));
+        assertEquals(new Token(TokenType.OPERATOR, "+"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "-"));
+        assertEquals(new Token(TokenType.OPERATOR, "-"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "*"));
+        assertEquals(new Token(TokenType.OPERATOR, "*"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
@@ -95,71 +95,71 @@ public class TokenizerTest {
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "!"));
+        assertEquals(new Token(TokenType.OPERATOR, "!"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "@"));
+        assertEquals(new Token(TokenType.OPERATOR, "@"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "$"));
+        assertEquals(new Token(TokenType.OPERATOR, "$"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "%"));
+        assertEquals(new Token(TokenType.OPERATOR, "%"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "#"));
+        assertEquals(new Token(TokenType.OPERATOR, "#"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "^"));
+        assertEquals(new Token(TokenType.OPERATOR, "^"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "&"));
+        assertEquals(new Token(TokenType.OPERATOR, "&"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, ">"));
+        assertEquals(new Token(TokenType.OPERATOR, ">"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "<"));
+        assertEquals(new Token(TokenType.OPERATOR, "<"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "++"));
+        assertEquals(new Token(TokenType.OPERATOR, "++"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "--"));
+        assertEquals(new Token(TokenType.OPERATOR, "--"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "!!!!"));
+        assertEquals(new Token(TokenType.OPERATOR, "!!!!"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "**"));
+        assertEquals(new Token(TokenType.OPERATOR, "**"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "<<<"));
+        assertEquals(new Token(TokenType.OPERATOR, "<<<"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, ">>>>>"));
+        assertEquals(new Token(TokenType.OPERATOR, ">>>>>"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "&&"));
+        assertEquals(new Token(TokenType.OPERATOR, "&&"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.OPERATOR, "^&%#$@@*#"));
+        assertEquals(new Token(TokenType.OPERATOR, "^&%#$@@*#"), token);
 
         assertNull(tokenizer.next());
     }
@@ -170,63 +170,63 @@ public class TokenizerTest {
 
         Token token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.FUNCTION, "sum"));
+        assertEquals(new Token(TokenType.FUNCTION, "sum"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.FUNCTION, "sum123"));
+        assertEquals(new Token(TokenType.FUNCTION, "sum123"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.FUNCTION, "pow"));
+        assertEquals(new Token(TokenType.FUNCTION, "pow"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.LP));
+        assertEquals(new Token(TokenType.LP), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.FUNCTION, "sum"));
+        assertEquals(new Token(TokenType.FUNCTION, "sum"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.LP));
+        assertEquals(new Token(TokenType.LP), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.NUMBER, "1"));
+        assertEquals(new Token(TokenType.NUMBER, "1"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.NUMBER, "2"));
+        assertEquals(new Token(TokenType.NUMBER, "2"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.RP));
+        assertEquals(new Token(TokenType.RP), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.FUNCTION, "div"));
+        assertEquals(new Token(TokenType.FUNCTION, "div"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.LP));
+        assertEquals(new Token(TokenType.LP), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.NUMBER, "10"));
+        assertEquals(new Token(TokenType.NUMBER, "10"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.NUMBER, "5"));
+        assertEquals(new Token(TokenType.NUMBER, "5"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.RP));
+        assertEquals(new Token(TokenType.RP), token);
 
         token = tokenizer.next();
         assertNotNull(token);
-        assertEquals(token, new Token(TokenType.RP));
+        assertEquals(new Token(TokenType.RP), token);
 
         assertNull(tokenizer.next());
     }

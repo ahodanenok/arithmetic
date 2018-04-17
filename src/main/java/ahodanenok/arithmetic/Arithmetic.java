@@ -47,18 +47,42 @@ public class Arithmetic {
             throw new IllegalArgumentException("Expression is null");
         }
 
+        Debug.log("Arithmetic.evaluate");
+        Debug.log("Evaluating in %s notation: '%s'", notation, expr);
+
+        Debug.newLine();
+        Debug.log("Env:");
+        Debug.indent();
+        Debug.logEnv(env);
+        Debug.unindent();
+
         Tokenizer tokenizer = new Tokenizer(expr);
         NotationAstBuilder astBuilder = notation.createAstBuilder();
         astBuilder.setEnv(env);
 
         Expression ast;
         try {
+            Debug.newLine();
+            Debug.log("Parsing to tokens:");
+            Debug.indent();
             Token token;
             while ((token = tokenizer.next()) != null) {
+                Debug.logToken(token);
                 astBuilder.addToken(token);
             }
+            Debug.unindent();
 
+            Debug.newLine();
+            Debug.log("Building AST:");
+            Debug.indent();
             ast = astBuilder.build();
+            Debug.unindent();
+
+            Debug.newLine();
+            Debug.log("AST:");
+            Debug.indent();
+            Debug.logExpression(ast);
+            Debug.unindent();
         } catch (MismatchedParenthesisException e) {
             throw new InvalidExpressionException(tokenizer.currentPosition(), tokenizer.currentLine(), expr, e);
         } catch (UnknownFunctionException e) {
@@ -67,6 +91,7 @@ public class Arithmetic {
             throw new InvalidExpressionException(tokenizer.currentPosition(), tokenizer.currentLine(), expr, e);
         }
 
+        Debug.newLine();
         return ast.evaluate();
     }
 }

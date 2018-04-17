@@ -1,16 +1,16 @@
 package ahodanenok.arithmetic;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class Env {
+class Env {
 
     Set<Function> functions;
     Set<Operator> operators;
 
-    public Env() {
-        this.functions = new HashSet<Function>();
-        this.operators = new HashSet<Operator>();
+    Env() {
+        this.functions = new LinkedHashSet<Function>();
+        this.operators = new LinkedHashSet<Operator>();
     }
 
     void registerFunction(Function function) {
@@ -24,9 +24,17 @@ public class Env {
     }
 
     Function getFunction(String identifier, int parametersCount) {
-        for (Function f : functions) {
-            if (f.getIdentifier().equals(identifier) && f.getParametersCount() == parametersCount) {
-                return f;
+        assert parametersCount > 0;
+        // first search for operator with the exact number of args
+        for (Function fn : functions) {
+            if (fn.getIdentifier().equals(identifier) && !fn.isVariableArgs() && fn.accepts(parametersCount)) {
+                return fn;
+            }
+        }
+
+        for (Function fn : functions) {
+            if (fn.getIdentifier().equals(identifier) && fn.accepts(parametersCount)) {
+                return fn;
             }
         }
 
@@ -44,6 +52,7 @@ public class Env {
     }
 
     Operator getOperator(String identifier, int parametersCount) {
+        assert parametersCount > 0;
         // first search for operator with the exact number of args
         for (Operator op : operators) {
             if (op.getIdentifier().equals(identifier) && !op.isVariableArgs() && op.accepts(parametersCount)) {

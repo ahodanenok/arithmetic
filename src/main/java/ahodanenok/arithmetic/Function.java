@@ -4,16 +4,31 @@ import java.math.BigDecimal;
 
 public abstract class Function {
 
-    protected final String identifier;
-    protected final int parametersCount;
+    private static final int VARIABLES_ARGS = -1;
 
-    public Function(String identifier, int parametersCount) {
+    private final String identifier;
+    private final int minParametersCount;
+    private final int parametersCount;
+
+    public Function(String identifier, int minParametersCount) {
+        this(identifier, minParametersCount, VARIABLES_ARGS);
+    }
+
+    public Function(String identifier, int minParametersCount, int parametersCount) {
         if (identifier == null) {
             throw new IllegalArgumentException("Identifier is null");
         }
 
-        if (parametersCount <= 0) {
+        if (minParametersCount <= 0) {
+            throw new IllegalArgumentException("Minimum parameters count must be greater than 0");
+        }
+
+        if (parametersCount <= 0 && parametersCount != VARIABLES_ARGS) {
             throw new IllegalArgumentException("Parameters count must be greater than 0");
+        }
+
+        if (minParametersCount > parametersCount && parametersCount != VARIABLES_ARGS) {
+            throw new IllegalArgumentException("Minimum parameters count must be lower or equal to parametersCount");
         }
 
         if (!Syntax.isValidFunctionIdentifier(identifier)) {
@@ -21,6 +36,7 @@ public abstract class Function {
         }
 
         this.identifier = identifier;
+        this.minParametersCount = minParametersCount;
         this.parametersCount = parametersCount;
     }
 
@@ -30,6 +46,15 @@ public abstract class Function {
 
     public final int getParametersCount() {
         return parametersCount;
+    }
+
+    public final boolean isVariableArgs() {
+        return getParametersCount() == VARIABLES_ARGS;
+    }
+
+    public final boolean accepts(int parametersCount) {
+        return parametersCount >= minParametersCount
+                && (parametersCount <= this.parametersCount || this.parametersCount == VARIABLES_ARGS);
     }
 
     public abstract BigDecimal evaluate(BigDecimal[] args);

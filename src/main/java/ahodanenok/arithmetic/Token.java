@@ -1,24 +1,24 @@
 package ahodanenok.arithmetic;
 
-public class Token {
+class Token {
 
     private TokenType type;
     private String value;
 
-    public Token(TokenType type) {
+    Token(TokenType type) {
         this.type = type;
     }
 
-    public Token(TokenType type, String value) {
+    Token(TokenType type, String value) {
         this.type = type;
         this.value = value;
     }
 
-    public TokenType getType() {
+    TokenType getType() {
         return type;
     }
 
-    public String getValue() {
+    String getValue() {
         return value;
     }
 
