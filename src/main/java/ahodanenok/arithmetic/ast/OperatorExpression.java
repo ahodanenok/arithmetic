@@ -37,6 +37,6 @@ public class OperatorExpression implements Expression {
 
     @Override
     public String toString() {
-        return "OperatorExpression: { fn=" + op + ", args=" + Arrays.toString(args) + "}";
+        return "OperatorExpression(op = " + op + ")";
     }
 }

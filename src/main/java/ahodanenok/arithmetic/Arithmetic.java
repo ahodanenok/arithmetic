@@ -114,7 +114,12 @@ public final class Arithmetic {
             throw new InvalidExpressionException(tokenizer.currentPosition(), tokenizer.currentLine(), expr, e);
         }
 
+        BigDecimal result = ast.evaluate();
+
         Debug.newLine();
-        return ast.evaluate();
+        Debug.log("Result = " + result);
+        Debug.newLine();
+
+        return result;
     }
 }

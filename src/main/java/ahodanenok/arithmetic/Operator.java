@@ -88,7 +88,7 @@ public abstract class Operator {
 
     @Override
     public String toString() {
-        return "Operator(" + identifier + ", " + parametersCount + ")";
+        return "Operator(" + identifier + ", arity = " + (isVariableArgs() ? "<varargs>" : parametersCount) + ")";
     }
 }
 

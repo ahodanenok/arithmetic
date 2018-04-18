@@ -37,6 +37,6 @@ public class FunctionExpression implements Expression {
 
     @Override
     public String toString() {
-        return "FunctionExpression: { fn=" + fn + ", args=" + Arrays.toString(args) + "}";
+        return "FunctionExpression(fn = " + fn + ")";
     }
 }

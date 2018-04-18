@@ -88,6 +88,6 @@ public abstract class Function {
 
     @Override
     public String toString() {
-        return "Function(" + identifier + ", " + parametersCount + ")";
+        return "Function(" + identifier + ", arity = " + (isVariableArgs() ? "<varargs>" : parametersCount) + ")";
     }
 }
