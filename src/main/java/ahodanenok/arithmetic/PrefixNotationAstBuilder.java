@@ -24,7 +24,6 @@ class PrefixNotationAstBuilder extends NotationAstBuilder {
     @Override
     void addToken(Token token) {
         this.tokens.add(token);
-
     }
 
     @Override

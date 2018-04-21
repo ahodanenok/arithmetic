@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class MaxFunction extends Function {
 
     public MaxFunction() {
-        super("max", 2);
+        super("max", 1);
     }
 
     @Override
