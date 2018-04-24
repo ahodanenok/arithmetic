@@ -33,22 +33,14 @@ class Tokenizer {
             return null;
         }
 
-        if (currentChar == ',') {
-            if (!readNextChar()) {
-                return null;
-            }
-
-            skipWhitespaces();
-            if (!hasMoreChars()) {
-                return null;
-            }
-        }
-
         if (currentChar == '(') {
             token = new Token(TokenType.LP);
             readNextChar();
         } else if (currentChar == ')') {
             token = new Token(TokenType.RP);
+            readNextChar();
+        } else if (currentChar == ',') {
+            token = new Token(TokenType.COMMA);
             readNextChar();
         } else if (Syntax.isNumberStart(currentChar)) {
             StringBuilder value = new StringBuilder();

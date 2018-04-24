@@ -198,11 +198,19 @@ public class TokenizerTest {
 
         token = tokenizer.next();
         assertNotNull(token);
+        assertEquals(new Token(TokenType.COMMA), token);
+
+        token = tokenizer.next();
+        assertNotNull(token);
         assertEquals(new Token(TokenType.NUMBER, "2"), token);
 
         token = tokenizer.next();
         assertNotNull(token);
         assertEquals(new Token(TokenType.RP), token);
+
+        token = tokenizer.next();
+        assertNotNull(token);
+        assertEquals(new Token(TokenType.COMMA), token);
 
         token = tokenizer.next();
         assertNotNull(token);
@@ -215,6 +223,10 @@ public class TokenizerTest {
         token = tokenizer.next();
         assertNotNull(token);
         assertEquals(new Token(TokenType.NUMBER, "10"), token);
+
+        token = tokenizer.next();
+        assertNotNull(token);
+        assertEquals(new Token(TokenType.COMMA), token);
 
         token = tokenizer.next();
         assertNotNull(token);

@@ -1,10 +1,7 @@
 package ahodanenok.arithmetic;
 
 import ahodanenok.arithmetic.ast.Expression;
-import ahodanenok.arithmetic.exception.InvalidExpressionException;
-import ahodanenok.arithmetic.exception.MismatchedParenthesisException;
-import ahodanenok.arithmetic.exception.UnknownFunctionException;
-import ahodanenok.arithmetic.exception.UnknownOperatorException;
+import ahodanenok.arithmetic.exception.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -111,6 +108,10 @@ public final class Arithmetic {
         } catch (UnknownFunctionException e) {
             throw new InvalidExpressionException(tokenizer.currentPosition(), tokenizer.currentLine(), expr, e);
         } catch (UnknownOperatorException e) {
+            throw new InvalidExpressionException(tokenizer.currentPosition(), tokenizer.currentLine(), expr, e);
+        } catch (NotEnoughArguments e) {
+            throw new InvalidExpressionException(tokenizer.currentPosition(), tokenizer.currentLine(), expr, e);
+        } catch (InvalidSyntaxException e) {
             throw new InvalidExpressionException(tokenizer.currentPosition(), tokenizer.currentLine(), expr, e);
         }
 

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class SubtractOperator extends Operator {
 
     public SubtractOperator() {
-        super("-", 2);
+        super("-", 2, 13, true);
     }
 
     @Override

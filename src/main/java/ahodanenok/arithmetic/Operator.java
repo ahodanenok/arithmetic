@@ -12,6 +12,9 @@ public abstract class Operator {
     private final int minParametersCount;
     private final int parametersCount;
 
+    private final int precedence;
+    private final boolean leftAssociative;
+
     protected MathContext mc;
 
     public Operator(String identifier, int minParametersCount) {
@@ -19,6 +22,14 @@ public abstract class Operator {
     }
 
     public Operator(String identifier, int minParametersCount, int parametersCount) {
+        this(identifier, minParametersCount, parametersCount, 0, true);
+    }
+
+    public Operator(String identifier, int minParametersCount, int precedence, boolean leftAssociative) {
+        this(identifier, minParametersCount, VARIABLES_ARGS, precedence, leftAssociative);
+    }
+
+    public Operator(String identifier, int minParametersCount, int parametersCount, int precedence, boolean leftAssociative) {
         if (identifier == null) {
             throw new IllegalArgumentException("Identifier is null");
         }
@@ -43,6 +54,9 @@ public abstract class Operator {
         this.minParametersCount = minParametersCount;
         this.parametersCount = parametersCount;
         this.mc = new MathContext(16, RoundingMode.HALF_UP);
+
+        this.precedence = precedence;
+        this.leftAssociative = leftAssociative;
     }
 
     public final String getIdentifier() {
@@ -55,6 +69,14 @@ public abstract class Operator {
 
     public final boolean isVariableArgs() {
         return getParametersCount() == VARIABLES_ARGS;
+    }
+
+    public int getPrecedence() {
+        return precedence;
+    }
+
+    public boolean isLeftAssociative() {
+        return leftAssociative;
     }
 
     public final boolean accepts(int parametersCount) {

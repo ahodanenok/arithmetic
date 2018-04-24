@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class MultiplyOperator extends Operator {
 
     public MultiplyOperator() {
-        super("*", 2);
+        super("*", 2, 14, true);
     }
 
     @Override

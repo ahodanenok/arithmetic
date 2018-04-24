@@ -5,7 +5,7 @@ public class UnknownFunctionException extends RuntimeException {
     private String identifier;
 
     public UnknownFunctionException(String identifier, int parametersCount) {
-        super("No suitable operator '" + identifier + "' with " + parametersCount + " parameter(s)");
+        super("No suitable function '" + identifier + "' with " + parametersCount + " parameter(s)");
         this.identifier = identifier;
     }
 

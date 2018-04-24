@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class DivideOperator extends Operator {
 
     public DivideOperator() {
-        super("/", 2);
+        super("/", 2, 14, true);
     }
 
     @Override
