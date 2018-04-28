@@ -2,12 +2,38 @@ package ahodanenok.arithmetic;
 
 import ahodanenok.arithmetic.ast.Expression;
 import ahodanenok.arithmetic.exception.*;
+import ahodanenok.arithmetic.function.AbsFunction;
+import ahodanenok.arithmetic.function.MaxFunction;
+import ahodanenok.arithmetic.function.PowFunction;
+import ahodanenok.arithmetic.operator.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
 public final class Arithmetic {
+
+    public static Arithmetic createDefault(Notation notation) {
+        Arithmetic arithmetic = create(notation);
+
+        arithmetic.setMathContext(new MathContext(16, RoundingMode.HALF_UP));
+
+        arithmetic.registerOperator(new DecrementOperator());
+        arithmetic.registerOperator(new DivideOperator());
+        arithmetic.registerOperator(new IncrementOperator());
+        arithmetic.registerOperator(new MultiplyOperator());
+        arithmetic.registerOperator(new NegateOperator());
+        arithmetic.registerOperator(new PlusOperator());
+        arithmetic.registerOperator(new RemainderOperator());
+        arithmetic.registerOperator(new SubtractOperator());
+        arithmetic.registerOperator(new SumOperator());
+
+        arithmetic.registerFunction(new AbsFunction());
+        arithmetic.registerFunction(new MaxFunction());
+        arithmetic.registerFunction(new PowFunction());
+
+        return arithmetic;
+    }
 
     public static Arithmetic create(Notation notation) {
         return new Arithmetic(notation);
