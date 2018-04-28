@@ -75,6 +75,10 @@ class InfixNotationAstBuilder extends NotationAstBuilder {
                     stack.pop();
                     // restore arity of the operator or function before parenthesis
                     currentArity = arityStack.pop();
+                    if (prevToken != null
+                            && (prevToken.getType() == TokenType.RP || prevToken.getType() == TokenType.NUMBER)) {
+                        currentArity = Math.max(currentArity, 1);
+                    }
                 }
 
                 Debug.log("stack after pop: %s", stack);
@@ -108,8 +112,8 @@ class InfixNotationAstBuilder extends NotationAstBuilder {
 
                         Operator op = getOperator(token.getValue(), currentArity);
                         Debug.log("current operator: %s", op);
-                        if (stackOp.getPrecedence() > op.getPrecedence()
-                                || (stackOp.getPrecedence() == op.getPrecedence() && stackOp.isLeftAssociative())) {
+                        if ((stackOp.getPrecedence() > op.getPrecedence() && currentArity > 1)
+                                || (stackOp.getPrecedence() == op.getPrecedence() && stackOp.isLeftAssociative() && currentArity > 1)) {
                             reduceOperator(stack.pop().getValue(), arityStack.pop(), expressions);
                         } else {
                             break;
@@ -196,14 +200,14 @@ class InfixNotationAstBuilder extends NotationAstBuilder {
             throw new InvalidSyntaxException("Expression is not in infix notation");
         }
 
-        assert stack.size() == 0;
-        assert expressions.size() == 1;
+        assert stack.size() == 0 : "stack size must be zero after build";
+        assert expressions.size() == 1 : "only one node must be in expressions stack";
         Debug.unindent();
         return expressions.pop();
     }
 
     private void reduceOperator(String identifier, int arity, LinkedList<Expression> expressions) {
-        assert arity >= 0;
+        assert arity >= 0: "arity must be >= 0";
 
         Operator op = getOperator(identifier, arity);
         if (arity > expressions.size()) {
@@ -220,7 +224,7 @@ class InfixNotationAstBuilder extends NotationAstBuilder {
     }
 
     private Operator getOperator(String identifier, int arity) {
-        assert arity >= 0;
+        assert arity >= 0: "arity must be >= 0";
         Operator op = env.getOperator(identifier, arity);
         if (op != null) {
             return op;
@@ -230,7 +234,7 @@ class InfixNotationAstBuilder extends NotationAstBuilder {
     }
 
     private void reduceFunction(String identifier, int arity, LinkedList<Expression> expressions) {
-        assert arity >= 0;
+        assert arity >= 0: "arity must be >= 0";
 
         Function fn = getFunction(identifier, arity);
         if (arity > expressions.size()) {
@@ -247,7 +251,7 @@ class InfixNotationAstBuilder extends NotationAstBuilder {
     }
 
     private Function getFunction(String identifier, int arity) {
-        assert arity >= 0;
+        assert arity >= 0: "arity must be >= 0";
         Function fn = env.getFunction(identifier, arity);
         if (fn != null) {
             return fn;
