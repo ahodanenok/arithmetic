@@ -4,10 +4,7 @@ import ahodanenok.arithmetic.ast.Expression;
 import ahodanenok.arithmetic.ast.FunctionExpression;
 import ahodanenok.arithmetic.ast.NumberExpression;
 import ahodanenok.arithmetic.ast.OperatorExpression;
-import ahodanenok.arithmetic.exception.InvalidExpressionException;
-import ahodanenok.arithmetic.exception.MismatchedParenthesisException;
-import ahodanenok.arithmetic.exception.UnknownFunctionException;
-import ahodanenok.arithmetic.exception.UnknownOperatorException;
+import ahodanenok.arithmetic.exception.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -76,9 +73,9 @@ class PostfixNotationAstBuilder extends NotationAstBuilder {
                 }
 
                 if (op != null) {
-                    assert op.isVariableArgs() || op.getParametersCount() == parametersCount;
+                    assert op.isVariableArgs() || op.getParametersCount() == parametersCount : "operator arity doesn't match";
                     Debug.log("found a match: (%s, %d)", op.getIdentifier(), op.getParametersCount());
-                    expressions.push(new OperatorExpression(op, pop(expressions, parametersCount)));
+                    reduceOperator(op, parametersCount, expressions);
                     // leave one number as a placeholder for the result of this operator
                     for (int k = 0; k < parametersCount - 1; k++) stack.pop();
                 } else {
@@ -98,25 +95,26 @@ class PostfixNotationAstBuilder extends NotationAstBuilder {
                 }
 
                 if (fn != null) {
-                    assert fn.isVariableArgs() || fn.getParametersCount() == parametersCount;
+                    assert fn.isVariableArgs() || fn.getParametersCount() == parametersCount : "function arity doesn't match";
                     Debug.log("found a match: (%s, %d)", fn.getIdentifier(), fn.getParametersCount());
-                    expressions.push(new FunctionExpression(fn, pop(expressions, parametersCount)));
+                    reduceFunction(fn, parametersCount, expressions);
                     // leave one number as a placeholder for the result of this function
                     for (int k = 0; k < parametersCount - 1; k++) stack.pop();
                 } else {
                     throw new UnknownFunctionException(token.getValue(), maxParametersCount);
                 }
             } else {
-                throw new IllegalArgumentException("Unknown token type: " + token);
+                Debug.log("error: unknown token: %s", token);
+                throw new InvalidSyntaxException("Unknown syntax: " + token.getValue());
             }
         }
 
         if (expressions.size() > 1) {
-            throw new InvalidExpressionException("Expression is not in prefix notation");
+            throw new InvalidSyntaxException("Expression is not in postfix notation");
         }
 
-        assert stack.size() == 1 && stack.peek() == TokenType.NUMBER;
-        assert expressions.size() == 1;
+        assert stack.size() == 1 && stack.peek() == TokenType.NUMBER : "stack must contain one number";
+        assert expressions.size() == 1 : "only one node must be in expressions stack";
         Debug.unindent();
         return expressions.pop();
     }
@@ -131,18 +129,39 @@ class PostfixNotationAstBuilder extends NotationAstBuilder {
             }
         }
 
-        assert count >= stack.size() || stack.get(count) != TokenType.NUMBER;
+        assert count >= stack.size() || stack.get(count) != TokenType.NUMBER : "top element is not number";
         return count;
     }
 
-    private Expression[] pop(LinkedList<Expression> expressions, int n) {
-        assert n >= 0;
+    private void reduceOperator(Operator op, int arity, LinkedList<Expression> expressions) {
+        assert arity >= 0: "arity must be >= 0";
 
-        Expression[] result = new Expression[n];
-        for (int i = n - 1; i >= 0; i--) {
-            result[i] = expressions.pop();
+        if (arity > expressions.size()) {
+            throw new NotEnoughArguments(op, arity, expressions.size());
         }
 
-        return result;
+        Expression[] args = new Expression[arity];
+        for (int i = arity - 1; i >= 0; i--) {
+            args[i] = expressions.pop();
+        }
+
+        Debug.log("reduce operator: %s, arity=%d", op.getIdentifier(), arity);
+        expressions.push(new OperatorExpression(op, args));
+    }
+
+    private void reduceFunction(Function fn, int arity, LinkedList<Expression> expressions) {
+        assert arity >= 0: "arity must be >= 0";
+
+        if (arity > expressions.size()) {
+            throw new NotEnoughArguments(fn, arity, expressions.size());
+        }
+
+        Expression[] args = new Expression[arity];
+        for (int i = arity - 1; i >= 0; i--) {
+            args[i] = expressions.pop();
+        }
+
+        Debug.log("reduce function: %s, arity=%d", fn.getIdentifier(), arity);
+        expressions.push(new FunctionExpression(fn, args));
     }
 }
