@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class PlusOperator extends Operator {
 
     public PlusOperator() {
-        super("+", 1, 1, 15, true);
+        super("+", 1, 1, 20, false);
     }
 
     @Override

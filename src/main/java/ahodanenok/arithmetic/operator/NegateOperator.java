@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class NegateOperator extends Operator {
 
     public NegateOperator() {
-        super("-", 1, 1, 15, true);
+        super("-", 1, 1, 20, false);
     }
 
     @Override
