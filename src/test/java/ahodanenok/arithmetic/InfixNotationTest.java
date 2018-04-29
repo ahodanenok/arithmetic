@@ -134,6 +134,7 @@ public class InfixNotationTest {
         arithmetic.registerOperator(new SumOperator());
         arithmetic.registerOperator(new DivideOperator());
         arithmetic.registerOperator(new MultiplyOperator());
+        arithmetic.registerOperator(new ExponentiationOperator());
 
         assertEquals(new BigDecimal(8), arithmetic.evaluate("10 -2"));
         assertEquals(new BigDecimal(12), arithmetic.evaluate(" 10 + 2 "));
@@ -146,6 +147,7 @@ public class InfixNotationTest {
         assertEquals(new BigDecimal(-5), arithmetic.evaluate("- ( -( -( - (- 5))))"));
         assertEquals(new BigDecimal(-5), arithmetic.evaluate("-  - - - - 5"));
         assertEquals(new BigDecimal(6), arithmetic.evaluate("(- 4) + 3 + (7 - ( 2 *(  4 +5 ) - 8 ) + 10)"));
+        assertEquals(new BigDecimal(162), arithmetic.evaluate("2 * 3 ** 4"));
 
         assertEquals(new BigDecimal(87), arithmetic.evaluate("( 3 + (10 - 5) + (4* (2 + 1 )* 3 *(8 - 6)) + 7)"));
     }
