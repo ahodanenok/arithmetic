@@ -11,6 +11,8 @@ class Tokenizer {
     private char currentChar;
     private Token token;
 
+    private boolean carriageReturn;
+
     public Tokenizer(String expr) {
         if (expr == null) {
             throw new IllegalArgumentException("Expression is null");
@@ -26,6 +28,10 @@ class Tokenizer {
     }
 
     public Token next() throws InvalidExpressionException {
+        if (token != null) {
+            pos += token.getValue() != null ? token.getValue().length() : 1;
+        }
+
         token = null;
         skipWhitespaces();
 
@@ -76,7 +82,6 @@ class Tokenizer {
 
     private boolean readNextChar() {
         idx++;
-        pos++;
         if (hasMoreChars()) {
             currentChar = expr.charAt(idx);
             return true;
@@ -87,7 +92,30 @@ class Tokenizer {
 
     private void skipWhitespaces() {
         while (hasMoreChars() && Character.isWhitespace(currentChar)) {
+            if (currentChar == '\r' && !carriageReturn) {
+                carriageReturn = true;
+            } else if (currentChar == '\n') {
+                pos = 1;
+                line++;
+                carriageReturn = false;
+            } else if (currentChar == '\r') {
+                pos = 1;
+                line++;
+            } else if (carriageReturn) {
+                pos = 2;
+                line++;
+                carriageReturn = false;
+            } else {
+                pos++;
+            }
+
             readNextChar();
+        }
+
+        if (carriageReturn) {
+            line++;
+            pos = 1;
+            carriageReturn = false;
         }
     }
 

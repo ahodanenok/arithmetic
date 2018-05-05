@@ -242,4 +242,52 @@ public class TokenizerTest {
 
         assertNull(tokenizer.next());
     }
+
+    @Test
+    public void testLinePos() {
+        Tokenizer tokenizer = new Tokenizer("10 + 2\r\r- 3\n* \r\r\n 5 \n\r /  6\r");
+
+        assertEquals(1, tokenizer.currentPosition());
+        assertEquals(1, tokenizer.currentLine());
+
+        tokenizer.next(); // 10
+        assertEquals(1, tokenizer.currentLine());
+        assertEquals(1, tokenizer.currentPosition());
+
+        tokenizer.next(); // +
+        assertEquals(1, tokenizer.currentLine());
+        assertEquals(4, tokenizer.currentPosition());
+
+        tokenizer.next(); // 2
+        assertEquals(1, tokenizer.currentLine());
+        assertEquals(6, tokenizer.currentPosition());
+
+        tokenizer.next(); // -
+        assertEquals(3, tokenizer.currentLine());
+        assertEquals(1, tokenizer.currentPosition());
+
+        tokenizer.next(); // 3
+        assertEquals(3, tokenizer.currentLine());
+        assertEquals(3, tokenizer.currentPosition());
+
+        tokenizer.next(); // *
+        assertEquals(4, tokenizer.currentLine());
+        assertEquals(1, tokenizer.currentPosition());
+
+        tokenizer.next(); // 5
+        assertEquals(6, tokenizer.currentLine());
+        assertEquals(2, tokenizer.currentPosition());
+
+        tokenizer.next(); // /
+        assertEquals(8, tokenizer.currentLine());
+        assertEquals(2, tokenizer.currentPosition());
+
+        tokenizer.next(); // 6
+        assertEquals(8, tokenizer.currentLine());
+        assertEquals(5, tokenizer.currentPosition());
+
+        tokenizer.next(); // null
+        assertEquals(9, tokenizer.currentLine());
+        assertEquals(1, tokenizer.currentPosition());
+    }
 }
